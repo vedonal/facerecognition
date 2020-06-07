@@ -13,7 +13,7 @@ import Clarifai from 'clarifai';
 const particleParams =  {
   particles: {
     number: {
-        value: 70,
+        value: 100,
         density: {
           enable: true,
           value_area: 800
@@ -22,8 +22,10 @@ const particleParams =  {
   },
 } 
 
+const API_KEY = process.env.REACT_APP_API_KEY;
+
 const app = new Clarifai.App({
-  apiKey: 'd7a11b0b135346959e3086a362ea1297'
+  apiKey: `${API_KEY}`
  });
 
 const initialState = {
