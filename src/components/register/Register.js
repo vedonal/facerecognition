@@ -27,8 +27,9 @@ class Register extends Component {
   onSubmitRegister = (event) => {
     const { loadUser, onRouteChange} = this.props;
     event.preventDefault();
+    
 
-    fetch('http://localhost:3000/register', {
+    fetch('https://shrouded-caverns-12938.herokuapp.com/register', {
       method: 'post',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({

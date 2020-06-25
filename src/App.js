@@ -87,7 +87,7 @@ class App extends Component {
       this.state.input)
     .then(response => {
       console.log(response)
-      fetch('http://localhost:3000/image', {
+      fetch('https://shrouded-caverns-12938.herokuapp.com/image', {
         method: 'put',
         headers: {'Content-type': 'application/json'},
         body: JSON.stringify({
