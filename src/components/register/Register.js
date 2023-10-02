@@ -30,7 +30,6 @@ class Register extends Component {
     
 
     fetch('https://face-recognition-backend-0a4w.onrender.com/register', {
-      mode: 'no-cors',
       method: 'post',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({
