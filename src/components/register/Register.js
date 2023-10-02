@@ -29,7 +29,7 @@ class Register extends Component {
     event.preventDefault();
     
 
-    fetch('https://shrouded-caverns-12938.herokuapp.com/register', {
+    fetch('https://face-recognition-backend-0a4w.onrender.com/register', {
       method: 'post',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({

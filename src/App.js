@@ -87,7 +87,7 @@ class App extends Component {
       this.state.input)
     .then(response => {
       console.log(response)
-      fetch('https://shrouded-caverns-12938.herokuapp.com/image', {
+      fetch('https://face-recognition-backend-0a4w.onrender.com/image', {
         method: 'put',
         headers: {'Content-type': 'application/json'},
         body: JSON.stringify({
