@@ -6,27 +6,44 @@ import Rank from './components/rank/Rank';
 import FaceRecognition from './components/faceRecognition/FaceRecognition.js';
 import Signin from './components/signin/Signin.js';
 import Register from './components/register/Register.js';
-import Particles from 'react-particles-js';
+import ParticlesBg from 'particles-bg';
 import './App.css';
-import Clarifai from 'clarifai';
 
-const particleParams =  {
-  particles: {
-    number: {
-        value: 100,
-        density: {
-          enable: true,
-          value_area: 800
-        }
-    },
+const returnClarifaiResults = (imageUrl) => {
+
+ const PAT = process.env.PAT;
+ const USER_ID = process.env.USER_ID;       
+ const APP_ID = process.env.APP_ID;
+ const MODEL_ID = process.env.MODEL_ID; 
+ const IMAGE_URL = imageUrl;
+
+ const raw = JSON.stringify({
+  "user_app_id": {
+      "user_id": USER_ID,
+      "app_id": APP_ID
   },
-} 
+  "inputs": [
+      {
+          "data": {
+              "image": {
+                  "url": IMAGE_URL
+              }
+          }
+      }
+  ]
+});
 
-const API_KEY = process.env.REACT_APP_API_KEY;
+const requestOptions = {
+  method: 'POST',
+  headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Key ' + PAT
+  },
+  body: raw
+};
 
-const app = new Clarifai.App({
-  apiKey: `${API_KEY}`
- });
+return requestOptions;
+}
 
 const initialState = {
   input: '',
@@ -82,26 +99,29 @@ class App extends Component {
 
   onButtonSubmit = () => {
     this.setState({imageUrl: this.state.input})
-    app.models.predict(
-      Clarifai.FACE_DETECT_MODEL, 
-      this.state.input)
-    .then(response => {
-      console.log(response)
-      fetch('https://face-recognition-backend-0a4w.onrender.com/image', {
-        method: 'put',
-        headers: {'Content-type': 'application/json'},
-        body: JSON.stringify({
-          id: this.state.user.id,
-        })
+
+     fetch("https://api.clarifai.com/v2/models/" + 'face-detection' + "/outputs", returnClarifaiResults(this.state.input))
+     .then(response => response.json())
+     .then(response => {
+        console.log('hi', response)
+        if (response) {
+          fetch('https://face-recognition-backend-0a4w.onrender.com/image', {
+            method: 'put',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              id: this.state.user.id
+            })
+          })
+            .then(response => response.json())
+            .then(count => {
+              this.setState(Object.assign(this.state.user, { entries: count}))
+            })
+
+        }
+        this.displayFaceBox(this.calculateFaceLocation(response))
       })
-        .then(response => response.json())
-        .then(count => {
-          this.setState(Object.assign(this.state.user, {entries: count}))
-        })
-      this.displayFaceBox(this.calculateFaceLocation(response))
-    })
-    .catch(err=> console.log(err))
-    }
+      .catch(err => console.log(err));
+  }
   
 
   onRouteChange = (route) => {
@@ -118,8 +138,7 @@ class App extends Component {
     const {route, box, imageUrl, isSignedin} = this.state
     return (
       <div className="App">
-        <Particles className='particles' 
-          params={particleParams}/>
+        <ParticlesBg color="#ffffff" num={150} type="cobweb" bg={true}/>
         <Navigation 
         isSignedin={isSignedin}
         onRouteChange={this.onRouteChange}
