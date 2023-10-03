@@ -9,12 +9,15 @@ import Register from './components/register/Register.js';
 import ParticlesBg from 'particles-bg';
 import './App.css';
 
+
+
+
 const returnClarifaiResults = (imageUrl) => {
 
- const PAT = process.env.PERSONAL_KEY;
- const USER_ID = process.env.USERNAME_ID;       
- const APP_ID = process.env.APPLICATION_ID;
- const MODEL_ID = process.env.MODEL_ID; 
+ const PAT = '955abc648cb341629464c3bb138296c6';
+ const USER_ID = 'vdh47ziqw92l';       
+ const APP_ID = 'face_detection';
+ const MODEL_ID = 'face-detection'; 
  const IMAGE_URL = imageUrl;
 
  const raw = JSON.stringify({
