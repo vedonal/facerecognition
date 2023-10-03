@@ -11,9 +11,9 @@ import './App.css';
 
 const returnClarifaiResults = (imageUrl) => {
 
- const PAT = process.env.PAT;
- const USER_ID = process.env.USER_ID;       
- const APP_ID = process.env.APP_ID;
+ const PAT = process.env.PERSONAL_KEY;
+ const USER_ID = process.env.USERNAME_ID;       
+ const APP_ID = process.env.APPLICATION_ID;
  const MODEL_ID = process.env.MODEL_ID; 
  const IMAGE_URL = imageUrl;
 
